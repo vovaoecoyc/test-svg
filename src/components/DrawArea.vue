@@ -1,5 +1,6 @@
 <template>
   <div id="area" ref="area"/>
+  <button @click="clearArea">Clear Area</button>
 </template>
 
 <script>
@@ -15,12 +16,24 @@
       this.rootSvgArea.click(this.clickAreaHandler);
     },
     methods: {
+      /* eslint-disable */
       clickAreaHandler(event) {
-        console.log(event.target.getBoundingClientRect());
+        const { layerX: x, layerY: y } = event;
+        this.shapes.circle.push(this.rootSvgArea.circle(5).move(x, y))
+      },
+      clearArea() {
+        for (let shape in this.shapes) {
+          this.shapes[shape] = [];
+        }
+        this.rootSvgArea.clear();
       },
     },
     data: () => ({
       rootSvgArea: null,
+
+      shapes: {
+        circle: [],
+      },
     })
   }
 </script>
